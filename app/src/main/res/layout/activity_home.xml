@@ -24,7 +24,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/blue_grey_900">
 
         <include
             android:id="@+id/toolbar"
@@ -35,13 +36,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
-            android:padding="4dp"
+            android:padding="1dp"
             android:clipToPadding="false"
             android:columnWidth="@dimen/item_width"
-            android:numColumns="auto_fit"
-            android:horizontalSpacing="4dp"
-            android:verticalSpacing="4dp"
-            android:stretchMode="columnWidth"/>
+            android:numColumns="2"
+            android:horizontalSpacing="1dp"
+            android:verticalSpacing="1dp"
+            android:stretchMode="columnWidth"
+            android:textFilterEnabled="false"
+            android:clickable="false"
+            android:scrollbars="none"/>
 
     </RelativeLayout>
 
@@ -49,6 +53,6 @@
         android:layout_width="260dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/windowBackgroundColor"/>
+        android:background="@color/blue_grey_600" />
 
 </android.support.v4.widget.DrawerLayout>

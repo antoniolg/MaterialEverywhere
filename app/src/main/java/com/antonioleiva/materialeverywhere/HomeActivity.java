@@ -16,8 +16,11 @@
 
 package com.antonioleiva.materialeverywhere;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.graphics.Palette;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,20 +33,28 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
 
 
 public class HomeActivity extends BaseActivity {
 
     private DrawerLayout drawer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionBarIcon(R.drawable.ic_ab_drawer);
 
+
+
+
+
+        setActionBarIcon(R.drawable.ic_ab_drawer);
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new GridViewAdapter());
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -63,8 +74,9 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -77,14 +89,15 @@ public class HomeActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private static class GridViewAdapter extends BaseAdapter {
+    private class GridViewAdapter extends BaseAdapter {
+
 
         @Override public int getCount() {
-            return 10;
+            return 5;
         }
 
         @Override public Object getItem(int i) {
-            return "Item " + String.valueOf(i + 1);
+            return "Image " + String.valueOf(i + 1);
         }
 
         @Override public long getItemId(int i) {
@@ -98,18 +111,46 @@ public class HomeActivity extends BaseActivity {
                         .inflate(R.layout.grid_item, viewGroup, false);
             }
 
-            String imageUrl = "http://lorempixel.com/800/600/sports/" + String.valueOf(i + 1);
+            final String imageUrl = "http://tbremer.pf-control.de/walls/samples/" + String.valueOf(i + 1) + ".jpg";
             view.setTag(imageUrl);
+            final ImageView image = (ImageView) view.findViewById(R.id.image);
 
-            ImageView image = (ImageView) view.findViewById(R.id.image);
+
             Picasso.with(view.getContext())
                     .load(imageUrl)
-                    .into(image);
+                    .fit().centerCrop()
+                    .transform(PaletteTransformation.instance())
+                    .into(image, new Callback.EmptyCallback() {
 
-            TextView text = (TextView) view.findViewById(R.id.text);
+                        @Override
+                        public void onSuccess() {
+                            ImageView imageView = (ImageView) findViewById(R.id.imageView7);
+
+                            Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+                            Palette palette = PaletteTransformation.getPalette(bitmap);
+
+                            PaletteLoader.with(image.getContext(), imageUrl)
+                                    .load(palette)
+                                    .setPaletteRequest(new PaletteRequest(
+                                            PaletteRequest.SwatchType.REGULAR_VIBRANT,
+                                            PaletteRequest.SwatchColor.BACKGROUND))
+                                    .into(imageView.findViewById(R.id.imageView7));
+
+                        }
+                    });
+
+            TextView text = (TextView) view.findViewById(R.id.textpalette);
             text.setText(getItem(i).toString());
+
+
 
             return view;
         }
     }
+
+
+
+
+
+
 }
