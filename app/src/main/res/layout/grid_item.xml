@@ -20,27 +20,48 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:foreground="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    android:focusable="false">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:orientation="vertical">
+                  android:orientation="vertical"
+        android:background="@color/blue_grey_900">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:clickable="false" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView7"
+            android:layout_gravity="center_horizontal"
+
+
+            android:layout_alignBottom="@+id/image"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/textpalette"
+            android:alpha="0.85" />
 
         <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:padding="@dimen/spacing_large"
-            android:layout_gravity="bottom"
-            android:background="@android:color/black"/>
+                android:id="@+id/textpalette"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:padding="@dimen/spacing_large"
 
-    </LinearLayout>
+                android:textSize="12dp"
+                android:autoText="false"
+                android:textStyle="bold"
+            android:layout_alignBottom="@+id/image"
+            android:layout_alignParentBottom="false" />
+
+    </RelativeLayout>
+
 </FrameLayout>
